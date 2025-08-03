@@ -1,23 +1,11 @@
-# Stage 1: Build the application
-FROM maven:3.8.5-openjdk-17 AS build
-WORKDIR /app
+# Use the official Tomcat image
+FROM tomcat:10.1-jdk17
 
-# Copy the Maven project files
-COPY pom.xml .
-COPY src ./src
+# Copy the WAR file to the Tomcat webapps directory
+COPY target/weather-application-1.0.0.war /usr/local/tomcat/webapps/weather-application.war
 
-# Build the application
-RUN mvn clean package -DskipTests
-
-# Stage 2: Run the application
-FROM openjdk:17-jdk-slim
-WORKDIR /app
-
-# Copy the built JAR file from the build stage
-COPY --from=build /app/target/*.jar app.jar
-
-# Expose the application port
+# Expose port 8080
 EXPOSE 8080
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Start Tomcat
+CMD ["catalina.sh", "run"]

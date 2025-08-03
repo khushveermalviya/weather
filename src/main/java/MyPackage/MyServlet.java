@@ -1,4 +1,4 @@
-package MyPackage;
+package com.example.weatherapplication;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
